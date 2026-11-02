@@ -402,6 +402,7 @@ def poll_windows_media():
 
 class Spotify:
   API = 'https://api.spotify.com/v1'
+  link_server = None  # the pending /callback server; a new link attempt replaces it
 
   def refresh(self):
     r = requests.post('https://accounts.spotify.com/api/token', timeout=10, data={
@@ -491,18 +492,30 @@ class Spotify:
       finally:
         threading.Thread(target=server.shutdown, daemon=True).start()
 
+    # Windows lets a second server bind the same port, and Spotify's redirect would then reach the
+    # old one with the old code_verifier ("code_verifier was incorrect"). Close it first.
+    old, self.link_server = self.link_server, None
+    if old:
+      old.shutdown()
+      old.server_close()
     try:
       server = make_server('127.0.0.1', 8000, app)
     except OSError:
       state['spotify'] = 'Port 8000 is busy'
       log('Spotify link needs port 8000, but another program uses it')
       return
+    self.link_server = server
     state['spotify'] = 'Waiting for browser...'
     webbrowser.open(url)
-    threading.Timer(300, server.shutdown).start()  # give up after 5 minutes
+    timeout = threading.Timer(300, server.shutdown)  # give up after 5 minutes
+    timeout.start()
     server.serve_forever()
-    if not result:
-      self.check_link()
+    timeout.cancel()
+    server.server_close()
+    if self.link_server is server:
+      self.link_server = None
+      if not result:
+        self.check_link()
 
 
 def _callback_page(title, text):
