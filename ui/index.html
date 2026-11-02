@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VRC Chatbox Studio</title>
+<link rel="icon" href="ui/icon.ico">
+<link rel="stylesheet" href="ui/style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-puzzle" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12 20 4l-6 16-3-7z"/><path d="m11 13 9-9"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path d="M5 6h14M12 6v13M9 19h6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="1.5"/><path d="M7 11v2M11 11v2M15 11v2M6 17v3M18 17v3"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="11" rx="2"/><circle cx="9" cy="11.5" r="3"/><path d="M15 10h4M15 13h4M5 17v3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M3 3l18 18"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M6 3h12M6 21h12M7 3c0 5 10 5 10 9s-10 4-10 9M17 3c0 5-10 5-10 9s10 4 10 9"/></symbol>
+  <symbol id="i-divider" viewBox="0 0 24 24"><path d="M3 12h18M7 7h10M7 17h10"/></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 4v16M16 4v16"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10z"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</svg>
+
+<div class="app">
+  <nav class="nav" aria-label="Sections">
+    <div class="brand"><div class="logo"><svg class="i"><use href="#i-chat"/></svg></div><div>Chatbox Studio<small id="version"></small></div></div>
+    <button data-page="chatbox"><svg class="i"><use href="#i-chat"/></svg>Chatbox</button>
+    <button data-page="elements"><svg class="i"><use href="#i-puzzle"/></svg>Elements</button>
+    <button data-page="sending"><svg class="i"><use href="#i-send"/></svg>Sending</button>
+    <button data-page="osc"><svg class="i"><use href="#i-plug"/></svg>OSC</button>
+    <button data-page="settings"><svg class="i"><use href="#i-gear"/></svg>Settings</button>
+    <button data-page="log"><svg class="i"><use href="#i-terminal"/></svg>Log</button>
+    <div class="spacer"></div>
+    <button data-page="help"><svg class="i"><use href="#i-help"/></svg>Help</button>
+  </nav>
+
+  <header class="top">
+    <h1 id="page-title">Chatbox</h1>
+    <div class="chips">
+      <span class="chip" id="chip-vrchat"><span class="dot"></span>VRChat</span>
+      <span class="chip" id="chip-hr" hidden><span class="dot"></span><span></span></span>
+    </div>
+    <button class="toggle-pill run" id="btn-run" aria-pressed="true" title="Toggle sending (keybind in Settings)"><svg class="i"><use href="#i-play"/></svg><span>Running</span></button>
+    <button class="toggle-pill afk" id="btn-afk" aria-pressed="false">AFK</button>
+  </header>
+
+  <main class="main">
+    <!-- Chatbox / layout -->
+    <section class="page" id="page-chatbox">
+      <div class="side-inline"></div>
+      <div class="card">
+        <h2>Mode</h2>
+        <p class="sub">Build a live chatbox from elements, or page through a text file 144 characters at a time.</p>
+        <div class="seg" role="group" aria-label="Chatbox mode">
+          <button data-set='{"scrollText":false}'>Layout</button>
+          <button data-set='{"scrollText":true}'>Text file</button>
+        </div>
+      </div>
+
+      <div class="card" data-show-if="!scrollText">
+        <h2>Arrange</h2>
+        <p class="sub">Drag to reorder. <b>Divider</b> puts the vertical divider after an element, <b>New line</b> continues the chatbox on the next line.</p>
+        <ul class="arrange" id="arrange"></ul>
+      </div>
+
+      <div class="card" data-show-if="!scrollText">
+        <h2>Add elements</h2>
+        <p class="sub">Each element is configured on the Elements page.</p>
+        <div class="palette" id="palette"></div>
+      </div>
+
+      <div class="card" data-show-if="scrollText">
+        <h2>Text file</h2>
+        <p class="sub">Sends the file in 144-character chunks, one per update. Everything else is paused meanwhile.</p>
+        <div class="row">
+          <label class="field" style="flex:1"><span>File path</span><input type="text" data-key="FileToRead" placeholder="C:\path\to\file.txt"></label>
+          <button class="btn" id="pick-file" style="align-self:flex-end">Browse…</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Elements -->
+    <section class="page" id="page-elements">
+      <details class="el" id="el-text">
+        <summary><svg class="i"><use href="#i-text"/></svg><b>Text</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <label class="field"><span>Message frames — one per line, cycled each update</span><textarea data-key="messageString" rows="6" placeholder="Hello there!&#10;*&#10;Second frame"></textarea></label>
+          <p class="hint">A line with only <code>*</code> sends a blank frame. <code>\n</code> or <code>\v</code> inside a line makes a line break.</p>
+        </div>
+      </details>
+
+      <details class="el" id="el-time">
+        <summary><svg class="i"><use href="#i-clock"/></svg><b>Time</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <div class="grid2">
+            <label class="field"><span>Morning (AM)</span><input type="text" data-key="timeDisplayAM" data-vars="hour,minute,hour24,time_zone"></label>
+            <label class="field"><span>Afternoon (PM)</span><input type="text" data-key="timeDisplayPM" data-vars="hour,minute,hour24,time_zone"></label>
+          </div>
+          <label class="switch"><span>Send time to avatar<small>Hours, Minutes, Seconds, Period parameters (vrcosc)</small></span><input type="checkbox" data-key="useTimeParameters"></label>
+        </div>
+      </details>
+
+      <details class="el" id="el-song">
+        <summary><svg class="i"><use href="#i-music"/></svg><b>Song</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <div class="row"><span class="hint">Source</span>
+            <div class="seg" role="group" aria-label="Song source">
+              <button data-set='{"useMediaManager":true,"useSpotifyApi":false}'>Windows Now Playing</button>
+              <button data-set='{"useMediaManager":false,"useSpotifyApi":true}'>Spotify</button>
+            </div>
+          </div>
+          <label class="field" data-show-if="useMediaManager"><span>Template</span><input type="text" data-key="songDisplay" data-vars="title,artist,album_title,album_artist,song_progress,song_length"></label>
+          <div class="sub-card" data-show-if="useSpotifyApi">
+            <h3>Spotify</h3>
+            <label class="field"><span>Template</span><input type="text" data-key="spotifySongDisplay" data-vars="title,artist,album_title,album_artist,song_progress,song_length,volume,song_id"></label>
+            <label class="field"><span>Client ID of your Spotify app</span><input type="text" data-key="spotify_client_id"></label>
+            <div class="row">
+              <button class="btn primary" id="spotify-link"><svg class="i"><use href="#i-link"/></svg><span>Link Spotify</span></button>
+              <button class="btn small" data-open="spotifyGuide">How to get a Client ID</button>
+              <span class="status" id="spotify-status"></span>
+            </div>
+            <p class="hint">Create an app on the <a href="#" data-open="spotifyDashboard">Spotify dashboard</a> with the redirect URI <code>http://127.0.0.1:8000/callback</code> and the Web API, then paste its Client ID here.</p>
+          </div>
+          <label class="switch"><span>Show ⏸️ when paused</span><input type="checkbox" data-key="showPaused"></label>
+          <label class="switch"><span>Hide song while paused</span><input type="checkbox" data-key="hideSong"></label>
+          <label class="switch"><span>Remove text in parentheses<small>“Song (Remastered 2011)” → “Song”</small></span><input type="checkbox" data-key="removeParenthesis"></label>
+          <label class="switch"><span>Only show on song change</span><input type="checkbox" data-key="showOnChange"></label>
+          <label class="field" data-show-if="showOnChange" style="max-width:220px"><span>Updates before it disappears</span><input type="number" min="1" step="1" data-key="songChangeTicks"></label>
+        </div>
+      </details>
+
+      <details class="el" id="el-cpu">
+        <summary><svg class="i"><use href="#i-cpu"/></svg><b>CPU</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <label class="field"><span>Template</span><input type="text" data-key="cpuDisplay" data-vars="cpu_percent,cpu_name"></label>
+        </div>
+      </details>
+
+      <details class="el" id="el-ram">
+        <summary><svg class="i"><use href="#i-ram"/></svg><b>RAM</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <label class="field"><span>Template</span><input type="text" data-key="ramDisplay" data-vars="ram_percent,ram_used,ram_available,ram_total"></label>
+        </div>
+      </details>
+
+      <details class="el" id="el-gpu">
+        <summary><svg class="i"><use href="#i-gpu"/></svg><b>GPU</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <label class="field"><span>Template</span><input type="text" data-key="gpuDisplay" data-vars="gpu_percent,gpu_name,vram_percent,vram_used,vram_total"></label>
+          <label class="field"><span>Graphics card</span><select data-key="gpuChoice" id="gpu-choice"><option value="auto">Automatic — the card VRChat runs on</option></select></label>
+          <p class="hint">Works with NVIDIA, AMD and Intel. Shows the whole card's load. Automatic follows VRChat, so an iGPU or a second card for AI work is ignored; before VRChat starts, the largest card with a monitor is used.</p>
+        </div>
+      </details>
+
+      <details class="el" id="el-hr">
+        <summary><svg class="i"><use href="#i-heart"/></svg><b>Heart rate</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <label class="field"><span>Template</span><input type="text" data-key="hrDisplay" data-vars="hr"></label>
+          <div class="row"><span class="hint">Source</span>
+            <div class="seg" role="group" aria-label="Heart rate source">
+              <button data-set='{"usePulsoid":true,"useHypeRate":false}'>Pulsoid</button>
+              <button data-set='{"usePulsoid":false,"useHypeRate":true}'>HypeRate</button>
+            </div>
+          </div>
+          <div class="sub-card" data-show-if="usePulsoid">
+            <label class="field"><span>Pulsoid token</span><input type="password" data-key="pulsoidToken" autocomplete="off"></label>
+            <div class="row"><button class="btn small" data-open="pulsoidToken">Create a token on Pulsoid</button></div>
+          </div>
+          <div class="sub-card" data-show-if="useHypeRate">
+            <div class="grid2">
+              <label class="field"><span>HypeRate API key</span><input type="password" data-key="hypeRateKey" autocomplete="off"></label>
+              <label class="field"><span>Session ID</span><input type="text" data-key="hypeRateSessionId"></label>
+            </div>
+            <p class="hint">HypeRate needs a developer API key, which you request from HypeRate.</p>
+            <div class="row"><button class="btn small" data-open="hypeRate">HypeRate</button></div>
+          </div>
+          <label class="switch"><span>Send HR to avatar even when paused</span><input type="checkbox" data-key="avatarHR"></label>
+          <label class="switch"><span>Heartbeat parameter<small>Pulses isHRBeat with your heart rate</small></span><input type="checkbox" data-key="toggleBeat"></label>
+          <label class="switch"><span>Custom beat length</span><input type="checkbox" data-key="blinkOverride"></label>
+          <label class="field" data-show-if="blinkOverride" style="max-width:220px"><span>Beat length (seconds)</span><input type="number" min="0.05" max="2" step="0.05" data-key="blinkSpeed"></label>
+        </div>
+      </details>
+
+      <details class="el" id="el-mute">
+        <summary><svg class="i"><use href="#i-mic"/></svg><b>Mic mute</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <div class="grid2">
+            <label class="field"><span>Muted</span><input type="text" data-key="mutedDisplay"></label>
+            <label class="field"><span>Unmuted</span><input type="text" data-key="unmutedDisplay"></label>
+          </div>
+          <p class="hint">Needs <b>OSC listen</b> turned on (OSC page).</p>
+        </div>
+      </details>
+
+      <details class="el" id="el-playtime">
+        <summary><svg class="i"><use href="#i-hourglass"/></svg><b>Play time</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <label class="field"><span>Template</span><input type="text" data-key="playTimeDisplay" data-vars="hours,remainder_minutes,minutes"></label>
+          <p class="hint">Counts from when VRChat started.</p>
+        </div>
+      </details>
+
+      <details class="el" id="el-div">
+        <summary><svg class="i"><use href="#i-divider"/></svg><b>Dividers</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <div class="grid2">
+            <label class="field"><span>Top</span><input type="text" data-key="topBar"></label>
+            <label class="field"><span>Middle (divider element)</span><input type="text" data-key="middleBar"></label>
+            <label class="field"><span>Bottom</span><input type="text" data-key="bottomBar"></label>
+            <label class="field"><span>Vertical</span><input type="text" data-key="verticalDivider"></label>
+          </div>
+          <label class="switch"><span>Hide top and bottom bars</span><input type="checkbox" data-key="hideOutside"></label>
+        </div>
+      </details>
+
+      <details class="el" id="el-timer">
+        <summary><svg class="i"><use href="#i-timer"/></svg><b>Timer</b><span class="badge" hidden>in layout</span><svg class="i chev"><use href="#i-down"/></svg></summary>
+        <div class="body">
+          <label class="field"><span>Template</span><input type="text" data-key="timerDisplay" data-vars="hours,minutes,seconds"></label>
+          <div class="row"><span class="hint">Remaining</span><b id="timer-left" style="font-size:20px;font-variant-numeric:tabular-nums">00:00:00</b></div>
+          <div class="row">
+            <input type="number" id="timer-amount" value="5" min="1" style="width:90px">
+            <select id="timer-unit" style="width:auto"><option value="3600">hours</option><option value="60" selected>minutes</option><option value="1">seconds</option></select>
+            <button class="btn" id="timer-add"><svg class="i"><use href="#i-plus"/></svg>Add</button>
+            <button class="btn danger" id="timer-reset">Reset</button>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- Sending -->
+    <section class="page" id="page-sending">
+      <div class="card">
+        <h2>Update interval</h2>
+        <p class="sub">Seconds between chatbox updates. If VRChat says “timed out”, raise this.</p>
+        <label class="field" style="max-width:220px"><span>Seconds</span><input type="number" min="0.5" step="0.1" data-key="message_delay"></label>
+      </div>
+      <div class="card stack">
+        <h2>Behaviour</h2>
+        <label class="switch"><span>Clear the chatbox when pausing or closing<small>Turn off if the chatbox blinks</small></span><input type="checkbox" data-key="sendBlank"></label>
+        <label class="switch"><span>Skip duplicate messages<small>Still resent every 25 s so the chatbox stays visible</small></span><input type="checkbox" data-key="suppressDuplicates"></label>
+        <label class="switch"><span>Send changes as soon as possible<small>After a skipped duplicate, don't wait the full interval</small></span><input type="checkbox" data-key="sendASAP"></label>
+      </div>
+    </section>
+
+    <!-- OSC -->
+    <section class="page" id="page-osc">
+      <div class="card">
+        <h2>Send to VRChat</h2>
+        <p class="sub">Where chatbox and avatar parameters go.</p>
+        <div class="grid2">
+          <label class="field"><span>Address</span><input type="text" data-key="oscSendAddress"></label>
+          <label class="field"><span>Port</span><input type="number" data-key="oscSendPort"></label>
+        </div>
+      </div>
+      <div class="card stack">
+        <h2>Listen</h2>
+        <label class="switch"><span>Listen to VRChat<small>Needed for mic mute and automatic AFK</small></span><input type="checkbox" data-key="oscListen"></label>
+        <div class="grid2">
+          <label class="field"><span>Address</span><input type="text" data-key="oscListenAddress"></label>
+          <label class="field"><span>Port</span><input type="number" data-key="oscListenPort"></label>
+        </div>
+      </div>
+      <div class="card stack">
+        <h2>Forward</h2>
+        <label class="switch"><span>Forward everything received<small>Repeats incoming OSC to another program</small></span><input type="checkbox" data-key="oscForeword"></label>
+        <div class="grid2">
+          <label class="field"><span>Address</span><input type="text" data-key="oscForewordAddress"></label>
+          <label class="field"><span>Port</span><input type="number" data-key="oscForewordPort"></label>
+        </div>
+      </div>
+      <div class="card stack">
+        <h2>Avatar debugging</h2>
+        <div class="grid2">
+          <label class="field"><span>Path</span><input type="text" id="dbg-path" value="/avatar/parameters/"></label>
+          <label class="field"><span>Type</span><select id="dbg-type"><option>int</option><option>float</option><option>bool</option><option>str</option></select></label>
+          <label class="field"><span>Value</span><input type="text" id="dbg-value"></label>
+        </div>
+        <div><button class="btn" id="dbg-send"><svg class="i"><use href="#i-send"/></svg>Send</button></div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="page" id="page-settings">
+      <div class="card stack">
+        <h2>Keybinds</h2>
+        <p class="sub">Global hotkeys, they work while VRChat has focus.</p>
+        <div class="row"><b style="min-width:110px">Pause / run</b><button class="btn" data-bind="keybind_run"></button><label class="switch" style="margin-left:auto"><span>Enabled</span><input type="checkbox" data-key="useRunKeybind"></label></div>
+        <div class="row"><b style="min-width:110px">AFK</b><button class="btn" data-bind="keybind_afk"></button><label class="switch" style="margin-left:auto"><span>Enabled</span><input type="checkbox" data-key="useAfkKeybind"></label></div>
+        <p class="hint">Without an AFK keybind, VRChat's own AFK state is used (needs OSC listen).</p>
+      </div>
+      <div class="card stack">
+        <h2>Appearance</h2>
+        <div class="seg" role="group" aria-label="Theme">
+          <button data-set='{"theme":"auto"}'>System</button>
+          <button data-set='{"theme":"light"}'>Light</button>
+          <button data-set='{"theme":"dark"}'>Dark</button>
+        </div>
+        <label class="switch"><span>Show now playing in the sidebar</span><input type="checkbox" data-key="showSongInfo"></label>
+      </div>
+      <div class="card stack">
+        <h2>Program</h2>
+        <label class="switch"><span>Start minimized</span><input type="checkbox" data-key="minimizeOnStart"></label>
+        <label class="switch"><span>Log to file<small>chatbox-studio.log next to the program</small></span><input type="checkbox" data-key="logOutput"></label>
+        <div class="row">
+          <button class="btn" id="open-folder">Open program folder</button>
+          <button class="btn danger" id="reset">Reset all settings</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Log -->
+    <section class="page" id="page-log">
+      <div class="card stack">
+        <div class="row"><h2 style="margin:0;flex:1">Program output</h2><button class="btn small" id="log-copy">Copy</button></div>
+        <div class="log" id="log" role="log" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Help -->
+    <section class="page" id="page-help">
+      <div class="card">
+        <h2>Help</h2>
+        <p class="sub">Setup notes and known issues live on GitHub.</p>
+        <div class="links">
+          <button class="btn" data-open="guide">Setup guide</button>
+          <button class="btn" data-open="spotifyGuide">Spotify setup</button>
+          <button class="btn" data-open="issues">Report an issue</button>
+          <button class="btn" data-open="releases">Downloads</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>About</h2>
+        <p class="sub" id="about"></p>
+        <p class="hint">MIT licensed. Can import settings from an existing OSC Chat Tools install on first start.</p>
+        <div class="row"><button class="btn" id="check-update">Check for updates</button><button class="btn" data-open="github">GitHub</button></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="side" id="side">
+    <div class="card preview-card">
+      <h2>Preview <small class="hint" id="next-in"></small></h2>
+      <div class="bubble" id="bubble"></div>
+      <div class="bubble-meta"><span id="bubble-state"></span><span id="bubble-count"></span></div>
+    </div>
+    <div class="card" id="np-card" hidden>
+      <div class="np"><div class="art"><svg class="i"><use href="#i-music"/></svg></div><div><b id="np-title"></b><small id="np-artist"></small></div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><small><svg class="i"><use href="#i-cpu"/></svg>CPU</small><b id="st-cpu">–</b><em id="st-cpu-name"></em></div>
+      <div class="stat"><small><svg class="i"><use href="#i-gpu"/></svg>GPU</small><b id="st-gpu">–</b><em id="st-gpu-name"></em></div>
+      <div class="stat"><small><svg class="i"><use href="#i-ram"/></svg>RAM</small><b id="st-ram">–</b><em id="st-ram-detail"></em></div>
+      <div class="stat"><small><svg class="i"><use href="#i-heart"/></svg>Heart rate</small><b id="st-hr">–</b><em id="st-hr-src"></em></div>
+    </div>
+  </aside>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="ui/app.js"></script>
+</body>
+</html>

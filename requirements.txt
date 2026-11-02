@@ -1,0 +1,8 @@
+flask
+pywebview
+python-osc
+psutil
+keyboard
+winsdk
+websocket-client
+requests

@@ -1,0 +1,7 @@
+/build/
+/dist/
+*.spec
+__pycache__/
+chatbox-studio.json
+chatbox-studio.json.tmp
+chatbox-studio.log
