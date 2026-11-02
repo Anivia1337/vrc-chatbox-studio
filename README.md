@@ -7,7 +7,7 @@ A live chatbox for VRChat over OSC: build it from elements (text, time, song, CP
 - **Song** from Windows "Now Playing" (any player) or the Spotify API, with progress and length.
 - **CPU and GPU usage and model names on any vendor** (NVIDIA, AMD, Intel). The GPU reading follows the card VRChat renders on, so an iGPU or a second card running AI workloads doesn't get in the way. A manual picker is also available.
 - **Heart rate** from Pulsoid or HypeRate, also sent to avatar parameters (`HR`, `isHRBeat`, …).
-- **Mic mute and automatic AFK** read from VRChat via OSC listen. OSC forwarding to other apps.
+- **Mic mute and automatic AFK** read from VRChat via OSC listen, with a push-to-talk mode (VRChat itself doesn't report push-to-talk as muted). OSC forwarding to other apps.
 - **Avatar parameters** for the time (`Hours`, `Minutes`, `Seconds`, `Period`), plus a debug sender.
 - **Global hotkeys** to pause and to toggle AFK.
 - Light, dark and system theme. The layout works down to phone width.
