@@ -78,6 +78,7 @@ DEFAULTS = {
   'playTimeDisplay': 'In VRChat {hours}:{remainder_minutes}',
   'mutedDisplay': 'mic off',
   'unmutedDisplay': '',
+  'pushToTalk': False,
   'topBar': '┌────────────┐',
   'middleBar': '──────────────',
   'bottomBar': '└────────────┘',
@@ -111,7 +112,7 @@ OLD_KEYS = ['confVersion', 'message_delay', 'messageString', 'FileToRead', 'scro
 cfg = dict(DEFAULTS)
 cfg_lock = threading.Lock()
 state = {'run': True, 'afk': False, 'preview': '', 'next_send': 0.0, 'spotify': 'Unlinked', 'latest': '', 'binding': False}
-live = defaultdict(str, {'hr': 0, 'isAfk': False, 'isMute': False, 'vrchat_pid': None, 'media': {}})
+live = defaultdict(str, {'hr': 0, 'isAfk': False, 'isMute': False, 'voice_at': 0.0, 'vrchat_pid': None, 'media': {}})
 log_lines = deque(maxlen=500)
 log_id = 0
 log_lock = threading.Lock()
@@ -265,6 +266,13 @@ class Osc:
     self.dispatcher = Dispatcher(strict_timing=False)  # never sleep on bundle timetags, handle immediately
     self.dispatcher.map('/avatar/parameters/AFK', lambda _a, v: self._set('isAfk', bool(v)))
     self.dispatcher.map('/avatar/parameters/MuteSelf', lambda _a, v: self._set('isMute', bool(v)))
+    self.dispatcher.map('/avatar/parameters/Voice', self._voice)
+
+  @staticmethod
+  def _voice(_address, level):
+    # Mic level, 0 while push-to-talk is released; MuteSelf doesn't change with PTT
+    if level > 0.02:
+      live['voice_at'] = time.time()
 
   @staticmethod
   def _set(key, value):
@@ -641,7 +649,11 @@ class Builder:
     if t == 'hr':
       return fmt(cfg['hrDisplay'], hr=live['hr'] if int(live['hr'] or 0) > 1 else '-')
     if t == 'mute':
-      return cfg['mutedDisplay'] if live['isMute'] else cfg['unmutedDisplay']
+      muted = live['isMute']
+      if cfg['pushToTalk'] and not muted:
+        # count as talking if the mic was active since roughly the previous chatbox update
+        muted = time.time() - live['voice_at'] > max(1.0, cfg['message_delay'])
+      return cfg['mutedDisplay'] if muted else cfg['unmutedDisplay']
     if t == 'playtime':
       minutes = int((time.time() - live['vrchat_start']) / 60) if live['vrchat_pid'] else 0
       return fmt(cfg['playTimeDisplay'], hours=f'{minutes // 60:02}', remainder_minutes=f'{minutes % 60:02}', minutes=f'{minutes:02}')
