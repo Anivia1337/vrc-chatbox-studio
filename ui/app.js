@@ -391,9 +391,16 @@ function placeSide() {
   bindFields();
   bindActions();
   renderPalette();
-  let page = 'chatbox';
-  try { page = localStorage.getItem('studio-page') || page; } catch (e) { /* storage unavailable */ }
+  const params = new URLSearchParams(location.hash.slice(1));  // #k=...&page=elements&open=gpu,song
+  let page = params.get('page') || 'chatbox';
+  if (!params.get('page')) {
+    try { page = localStorage.getItem('studio-page') || page; } catch (e) { /* storage unavailable */ }
+  }
   showPage(page);
+  for (const t of (params.get('open') || '').split(',').filter(Boolean)) {
+    const d = $('#el-' + t);
+    if (d) d.open = true;
+  }
   placeSide();
   matchMedia('(max-width: 1180px)').addEventListener('change', placeSide);
   await load();

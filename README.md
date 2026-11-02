@@ -2,6 +2,10 @@
 
 A live chatbox for VRChat over OSC: build it from elements (text, time, song, CPU, GPU, RAM, heart rate, mic mute, play time, timer), watch a preview, and it updates in the game. Windows, one standalone `.exe`, no installer.
 
+![The chatbox in VRChat](docs/ingame.jpg)
+
+![Chatbox page with layout editor and live preview](docs/chatbox-dark.png)
+
 ## Features
 - **Layout editor** with drag and drop, live chatbox preview and a 144-character counter.
 - **Song** from Windows "Now Playing" (any player) or the Spotify API, with progress and length.
@@ -12,6 +16,11 @@ A live chatbox for VRChat over OSC: build it from elements (text, time, song, CP
 - **Global hotkeys** to pause and to toggle AFK.
 - Light, dark and system theme. The layout works down to phone width.
 - **Importing from OSC Chat Tools:** if an install is found (its `please-do-not-delete.txt`), its settings are imported on first start.
+
+## Screenshots
+| Element settings (light theme) | Narrow window |
+| --- | --- |
+| ![Elements page](docs/elements-light.png) | ![Narrow layout](docs/mobile-dark.png) |
 
 ## Getting started
 1. Turn on OSC in VRChat: Action Menu → Options → OSC → Enabled.
